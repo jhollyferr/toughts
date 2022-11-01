@@ -13,6 +13,9 @@ const SessionMiddleware = require("./middlewares/SessionMiddleware");
 const Tought = require("./models/Tought");
 const User = require("./models/User");
 
+const toughtRoutes = require("./routes/toughtRoutes");
+const ToughtController = require("./controllers/ToughtControllers");
+
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 
@@ -47,19 +50,10 @@ app.use(flash());
 
 app.use(express.static("public"));
 
-// app.use((request, response, next) => {
-//   try {
-//     if (request.session.userId) response.locals.session = request.session;
-
-//     next();
-//   } catch (error) {
-//     return response.status(500).json({
-//       message: error.message,
-//     });
-//   }
-// });
-
 app.use(SessionMiddleware.store);
+
+app.use("/tougths", toughtRoutes);
+app.get("/", ToughtController.showToughts);
 
 connection
   // .sync()

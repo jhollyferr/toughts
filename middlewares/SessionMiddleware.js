@@ -1,5 +1,5 @@
 module.exports = class SessionMiddleware {
-  static async store(request, response, next) {
+  static store = async (request, response, next) => {
     try {
       if (request.session.userId) response.locals.session = request.session;
 
