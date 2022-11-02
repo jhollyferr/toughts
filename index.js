@@ -14,7 +14,9 @@ const SessionMiddleware = require("./middlewares/SessionMiddleware");
 const Tought = require("./models/Tought");
 const User = require("./models/User");
 
-const toughtRoutes = require("./routes/toughtRoutes");
+const toughtRoutes = require("./routes/ToughtRoutes");
+const authtRoutes = require("./routes/AuthRoutes");
+
 const ToughtController = require("./controllers/ToughtControllers");
 
 const layoutsDir = path.join(__dirname, "views/layouts");
@@ -26,7 +28,7 @@ app.engine(
   ".hbs",
   handlebars.engine({
     extname: ".hbs",
-    layoutsDir: layoutsDir,
+    layoutsDir,
   })
 );
 
@@ -64,9 +66,9 @@ app.use(flash());
 app.use(SessionMiddleware.store);
 
 app.use("/tougths", toughtRoutes);
-app.get("/", ToughtController.showToughts);
+app.use("/", authtRoutes);
 
-app.get("/", (request, response) => response.render("toughts/home"));
+app.get("/", ToughtController.showToughts);
 
 connection
   // .sync()
