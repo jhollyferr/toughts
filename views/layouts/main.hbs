@@ -15,7 +15,7 @@
 
     <nav id="navbar">
       <a href="/" alt="Toughts" id="logo">
-        <img src="/img/toughts_logo.png" alt="Logo">
+        <img src="/img/toughts_logo.png" alt="Logo" />
       </a>
       <ul>
         <li><a href="/">Peensamentos</a></li>
@@ -25,6 +25,11 @@
     </nav>
 
     <div class="container">
+      {{#if messages.message}}
+        <div class="message">
+          {{messages.message}}
+        </div>
+      {{/if}}
       {{{body}}}
     </div>
 
