@@ -25,4 +25,24 @@ module.exports = class ToughtController {
       console.error(error);
     }
   };
+
+  static createToughtSave = async (request, response) => {
+    try {
+      const { title } = request.body;
+      const { userId } = request.session;
+
+      const tought = await Tought.create({
+        title,
+        userId,
+      });
+
+      request.flash("message", "Pensamento criado com sucesso.");
+      
+      request.session.save(() => {
+        response.redirect("/toughts/dashboard");
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
