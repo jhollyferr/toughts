@@ -57,4 +57,23 @@ module.exports = class ToughtController {
       console.error(error);
     }
   };
+
+  static removeTought = async (request, response) => {
+    try {
+      const { id } = request.body;
+      const { userId } = request.session;
+
+      await Tought.destroy({
+        where: { id, UserId: userId },
+      });
+
+      request.flash("message", "Pensamento removido com sucesso.");
+
+      request.session.save(() => {
+        response.redirect("/toughts/dashboard");
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
