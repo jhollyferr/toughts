@@ -65,14 +65,14 @@ app.use(flash());
 
 app.use(SessionMiddleware.store);
 
-app.use("/tougths", toughtRoutes);
+app.use("/toughts", toughtRoutes);
 app.use("/", authtRoutes);
 
 app.get("/", ToughtController.showToughts);
 
 connection
-  // .sync()
-  .sync({ force: true })
+  .sync()
+  // .sync({ force: true })
   .then(() =>
     app.listen(3000, () => console.log("Server listening on port " + 3000))
   )

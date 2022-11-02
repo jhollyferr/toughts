@@ -9,4 +9,12 @@ module.exports = class ToughtController {
       console.error(error);
     }
   };
+
+  static dashboard = async (request, response) => {
+    try {
+      response.render("toughts/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
