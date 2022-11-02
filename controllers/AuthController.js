@@ -68,4 +68,34 @@ module.exports = class AuthController {
       console.log(error);
     }
   };
+
+  static loginPost = async (request, response) => {
+    const { email, password } = request.body;
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      request.flash("message", "Usuário não encontrado");
+
+      response.render("auth/login");
+      return;
+    }
+
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+
+    if (!passwordMatch) {
+      request.flash("message", "Senha ou e-mail inválido");
+
+      response.render("auth/login");
+      return;
+    }
+
+    request.session.userId = user.id;
+
+    request.flash("message", "Autenticação realizada com sucesso");
+
+    request.session.save(() => {
+      response.redirect("/");
+    });
+  };
 };
