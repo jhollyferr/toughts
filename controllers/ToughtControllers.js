@@ -12,7 +12,19 @@ module.exports = class ToughtController {
 
   static dashboard = async (request, response) => {
     try {
-      response.render("toughts/dashboard");
+      const { userId } = request.session;
+
+      const user = await User.findOne({
+        where: { id: userId },
+        include: Tought,
+        plain: true,
+      });
+
+      if (!user) response.redirect("/login");
+
+      const toughts = await JSON.parse(JSON.stringify(user.Toughts));
+
+      response.render("toughts/dashboard", { toughts: toughts });
     } catch (error) {
       console.error(error);
     }
@@ -33,11 +45,11 @@ module.exports = class ToughtController {
 
       const tought = await Tought.create({
         title,
-        userId,
+        UserId: userId,
       });
 
       request.flash("message", "Pensamento criado com sucesso.");
-      
+
       request.session.save(() => {
         response.redirect("/toughts/dashboard");
       });
