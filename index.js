@@ -3,6 +3,7 @@ const handlebars = require("express-handlebars");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const flash = require("express-flash");
+const path = require("path");
 
 const app = express();
 
@@ -16,8 +17,20 @@ const User = require("./models/User");
 const toughtRoutes = require("./routes/toughtRoutes");
 const ToughtController = require("./controllers/ToughtControllers");
 
-app.engine("handlebars", handlebars.engine());
-app.set("view engine", "handlebars");
+const layoutsDir = path.join(__dirname, "views/layouts");
+const publicPath = path.join(__dirname, "public");
+
+app.use(express.static(publicPath));
+
+app.engine(
+  ".hbs",
+  handlebars.engine({
+    extname: ".hbs",
+    layoutsDir: layoutsDir,
+  })
+);
+
+app.set("view engine", "hbs");
 
 app.use(
   express.urlencoded({
@@ -48,15 +61,17 @@ app.use(
 
 app.use(flash());
 
-app.use(express.static("public"));
-
 app.use(SessionMiddleware.store);
 
 app.use("/tougths", toughtRoutes);
 app.get("/", ToughtController.showToughts);
 
+app.get("/", (request, response) => response.render("toughts/home"));
+
 connection
   // .sync()
   .sync({ force: true })
-  .then(() => app.listen(3000))
+  .then(() =>
+    app.listen(3000, () => console.log("Server listening on port " + 3000))
+  )
   .catch((error) => console.log(error));
