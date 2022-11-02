@@ -24,7 +24,9 @@ module.exports = class ToughtController {
 
       const toughts = await JSON.parse(JSON.stringify(user.Toughts));
 
-      response.render("toughts/dashboard", { toughts: toughts });
+      const emptyToughts = toughts.length === 0;
+
+      response.render("toughts/dashboard", { toughts: toughts, emptyToughts });
     } catch (error) {
       console.error(error);
     }

@@ -158,7 +158,7 @@ form input[type="submit"]:hover,
   padding: 10px;
 }
 
-.dashboard {
+.dashboard h3{
   margin-bottom: 1.5em;
 }
 
@@ -187,4 +187,9 @@ form input[type="submit"]:hover,
   color: #fff;
   border-color: #fff;
   margin: 0 0.5em;
+}
+
+
+.dashboard a{
+  color: #f6982d;
 }
