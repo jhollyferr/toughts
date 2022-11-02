@@ -59,4 +59,13 @@ module.exports = class AuthController {
       console.log(error);
     }
   };
+
+  static logout = async (request, response) => {
+    try {
+      request.session.destroy();
+    } catch (error) {
+      console.log(error);
+      response.redirect("/login");
+    }
+  };
 };
