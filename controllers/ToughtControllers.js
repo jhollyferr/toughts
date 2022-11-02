@@ -17,4 +17,12 @@ module.exports = class ToughtController {
       console.error(error);
     }
   };
+
+  static createTought = async (request, response) => {
+    try {
+      response.render("toughts/create");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
