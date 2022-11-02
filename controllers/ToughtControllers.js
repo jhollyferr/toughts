@@ -78,4 +78,32 @@ module.exports = class ToughtController {
       console.error(error);
     }
   };
+
+  static updateTought = async (request, response) => {
+    try {
+      const { id } = request.params;
+
+      const tought = await Tought.findOne({ where: { id }, raw: true });
+
+      response.render("toughts/edit", { tought });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static updateToughtSave = async (request, response) => {
+    try {
+      const { id, title } = request.body;
+
+      await Tought.update({ title }, { where: { id } });
+
+      request.flash("message", "Pensamento atualizado com sucesso.");
+
+      request.session.save(() => {
+        response.redirect("/toughts/dashboard");
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
